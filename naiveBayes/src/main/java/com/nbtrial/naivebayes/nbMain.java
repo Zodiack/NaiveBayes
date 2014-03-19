@@ -99,7 +99,7 @@ public abstract class nbMain extends IntentService {
             Log.d(LOG_TAG,"Done writing to the memory");
             stopService(intent);
         }
-
+        
         //Classifying an instance using a pre-built nb model
         if(intent.getAction().equals("classify"))
         {
