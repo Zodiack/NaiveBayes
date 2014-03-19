@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">NBtrial</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_menu">Menu</string>
+    <string name="title_activity_nb_menu">nbMenu</string>
+    <string name="new_nb_model">Create a new nb model</string>
+    <string name="update_nb_model">Update a nb model</string>
+    <string name="classify_nb_model">Classify an instance</string>
+    <string name="title_activity_nb_main">nbMain</string>
+
+</resources>
