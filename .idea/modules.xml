@@ -3,8 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/NBtrial.iml" filepath="$PROJECT_DIR$/NBtrial.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TestingNB/TestingNB.iml" filepath="$PROJECT_DIR$/TestingNB/TestingNB.iml" />
       <module fileurl="file://$PROJECT_DIR$/naiveBayes/naiveBayes.iml" filepath="$PROJECT_DIR$/naiveBayes/naiveBayes.iml" />
-      <module fileurl="file://$PROJECT_DIR$/temp.iml" filepath="$PROJECT_DIR$/temp.iml" />
     </modules>
   </component>
 </project>

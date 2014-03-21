@@ -9,13 +9,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
-import weka.classifiers.bayes.NaiveBayesUpdateable;
 import weka.core.Instances;
-import weka.core.converters.ConverterUtils;
+import weka.core.converters.ConverterUtils.DataSource;
 
 
 public class nbMenu extends ActionBarActivity {
     private static final String LOG_TAG = "nbMenu";
+    public static final String NEW="new";
+    public static final String Update="update";
+    public static final String Classify="classify";
     public final static String TAG = "com.nbtrial.naivebayes.MESSAGE";
     Instances TrainSet = null;
     Instances TestSet = null;
@@ -28,7 +30,7 @@ public class nbMenu extends ActionBarActivity {
         //Instances structure = null;
         Log.d(LOG_TAG,"Loading the training data");
         try {
-            TrainSet = ConverterUtils.DataSource.read("/storage/sdcard/TrainSet.arff");
+            TrainSet = DataSource.read("/storage/sdcard/TrainSet.arff");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -36,7 +38,7 @@ public class nbMenu extends ActionBarActivity {
 
         Log.d(LOG_TAG,"Loading the testing data");
         try {
-            TestSet = ConverterUtils.DataSource.read("/storage/sdcard/TestSet.arff");
+            TestSet = DataSource.read("/storage/sdcard/TestSet.arff");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -69,16 +71,18 @@ public class nbMenu extends ActionBarActivity {
     Create a new nb model.
     Required - data to be sent to build a new nb in the form of instances
      */
+    //TODO: Fix The parameters as required for this function - this includes sending the instances for building the model.
     public void newNB(View view) {
         Log.d(LOG_TAG,"newNB called");
         Intent intent = new Intent(this,nbMain.class);
         Log.d(LOG_TAG,"new intent created");
         //Setting the action
-        intent.setAction("new");
+        intent.setAction(NEW);
         Log.d(LOG_TAG,"Action set");
-        intent.putExtra("data",TrainSet);
-        Log.d(LOG_TAG,"Data set" + intent);
-        startService(intent);
+       // intent.putExtra("data",TrainSet);
+       // Log.d(LOG_TAG,"Data set" + intent);
+       // startService(intent);
+        new nbMain().execute(intent);
         Log.d(LOG_TAG,"Service started after this");
     }
 
@@ -87,8 +91,8 @@ public class nbMenu extends ActionBarActivity {
     Receives the model and an instance (currently represented by an index to the instances structure)
     and updates it accordingly.
      */
-    //TODO: Fix the nb parameter
-    public void UpdateNB(View view,NaiveBayesUpdateable nb) {
+    //TODO: Fix The parameters as required for this function - this includes sending the instance for classification as we need it
+    public void UpdateNB(View view) {
         Log.d(LOG_TAG,"Update NB called");
         Intent intent = new Intent(this,nbMain.class);
         //This is only for getting the index used for this test.
@@ -96,18 +100,22 @@ public class nbMenu extends ActionBarActivity {
         EditText editText = (EditText) findViewById(R.id.updateIndex);
         String index = editText.getText().toString();
         //Setting the action
-        intent.setAction("update");
-        intent.putExtra("instance",TestSet.instance(Integer.parseInt(index)));
-        intent.putExtra("nb model",nb);
-        startService(intent);
+        intent.setAction(Update);
+        intent.putExtra("index",index);
+        //TODO: Here we sent an arbitrary string as the location of the model. This needs to be addressed.
+        intent.putExtra("nb model","/storage/sdcard/nb.model");
+        new nbMain().execute(intent);
+
+       // startService(intent);
     }
 
     /*
     Classifies an instance using an existing nb model.
     Receives an instance and a nb model and returns the class of that instance.
      */
-    //TODO: Fix the nb parameter
-    public void ClassifyNB(View view,NaiveBayesUpdateable nb) {
+    //TODO: Fix The parameters as required for this function - this includes sending the instance for classification as we need it
+
+    public void ClassifyNB(View view) {
         Log.d(LOG_TAG,"Classify called");
         Intent intent = new Intent(this,nbMain.class);
         //This is only for getting the index used for this test.
@@ -115,9 +123,11 @@ public class nbMenu extends ActionBarActivity {
         EditText editText = (EditText) findViewById(R.id.classifyIndex);
         String index = editText.getText().toString();
         //Setting the action
-        intent.setAction("classify");
-        intent.putExtra("instance",TestSet.instance(Integer.parseInt(index)));
-        intent.putExtra("nb model",nb);
-        startService(intent);
+        intent.setAction(Classify);
+        Log.d(LOG_TAG,"The index is:" + index);
+        intent.putExtra("index", Integer.parseInt(index));
+        //TODO: Here we sent an arbitrary string as the location of the model. This needs to be addressed.
+        intent.putExtra("nb model","/storage/sdcard/nb.model");
+        new nbMain().execute(intent);
     }
 }

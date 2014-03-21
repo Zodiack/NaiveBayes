@@ -1,1 +1,1 @@
-include ':naiveBayes'
+include ':naiveBayes', ':TestingNB'
