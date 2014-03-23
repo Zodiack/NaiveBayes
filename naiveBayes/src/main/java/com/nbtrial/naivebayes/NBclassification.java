@@ -13,7 +13,10 @@ import weka.classifiers.Evaluation;
 import weka.classifiers.bayes.NaiveBayesUpdateable;
 import weka.core.Instances;
 import weka.core.converters.ConverterUtils.DataSource;
-
+/*
+Here we can test other classes.
+(Name needs to be changed)
+ */
 public class NBclassification extends ActionBarActivity {
     private static final String TAG = "Record for debugger";
 
@@ -23,7 +26,7 @@ public class NBclassification extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nbclassification);
 
-        //Loading the data
+        //Loading the data - training set and test set
         Instances structure = null;
         try {
             structure = DataSource.read("/storage/sdcard/features.arff");
@@ -35,7 +38,8 @@ public class NBclassification extends ActionBarActivity {
         structure.setClassIndex(structure.numAttributes() - 1);
         Log.d(TAG, "Last attribute set as class");
 
-        // train NaiveBayes
+        // Train the class.
+        // This is the place to change if we want to try new classifiers
         NaiveBayesUpdateable nb = new NaiveBayesUpdateable();
         Log.d(TAG, "Created a new nb class");
         try {
@@ -44,6 +48,8 @@ public class NBclassification extends ActionBarActivity {
         catch (Exception e) {
             e.printStackTrace();
         }
+
+        //Building an eval class - this class will let us evaluate the model
         Log.d(TAG, "Building an eval class");
         Evaluation eval = null;
         try {
@@ -51,6 +57,9 @@ public class NBclassification extends ActionBarActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        // Doing the actual evaluation
+        // There are numerous options here and we can get all kinds of data from the eval
         Log.d(TAG, "Doing the cross validation");
         if(eval != null)
             try {

@@ -15,6 +15,11 @@ import weka.classifiers.bayes.NaiveBayesUpdateable;
 import weka.core.Instances;
 import weka.core.converters.ConverterUtils.DataSource;
 
+/*
+This is the test class for the nb.
+If we want to change any options - do it here.
+ */
+
 public class MainActivity extends ActionBarActivity {
     private static final String TAG = "Record for debugger";
     Instances TestSet = null;
@@ -24,7 +29,7 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Loading the data
+        //Loading the data (the test set).
         Log.d(TAG,"Loading the testing data");
         try {
             TestSet = DataSource.read("/storage/sdcard/TestSet.arff");
@@ -34,7 +39,7 @@ public class MainActivity extends ActionBarActivity {
         TestSet.setClassIndex(TestSet.numAttributes() - 1);
 
 
-       // NaiveBayesUpdateable nb = loadModel("/storage/sdcard/nb.model");
+       // Loading the nb model stored in a specific location.
         NaiveBayesUpdateable nb = null;
         try {
             nb = (NaiveBayesUpdateable) weka.core.SerializationHelper.read("/storage/sdcard/nb.model");
@@ -43,10 +48,12 @@ public class MainActivity extends ActionBarActivity {
         }
         Log.d(TAG, "Opened the file");
         assert TestSet != null;
+        // Here we set the last attribute as the class
         TestSet.setClassIndex(TestSet.numAttributes() - 1);
         Log.d(TAG, "Last attribute set as class");
 
 
+        // The eval class is the object we use to evaluate a model
         Log.d(TAG, "Building an eval class");
         Evaluation eval = null;
         try {
@@ -55,6 +62,7 @@ public class MainActivity extends ActionBarActivity {
             e.printStackTrace();
         }
         Log.d(TAG, "Doing the cross validation");
+        // Here we run the model that knows only the training set, with the test set
         if(eval != null)
             try {
                 eval.evaluateModel(nb,TestSet);
@@ -72,6 +80,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
 
+    // This function is not required anymore
     public NaiveBayesUpdateable loadModel(String string)
     {
         Log.d(TAG, "Got into the loadmodel function");

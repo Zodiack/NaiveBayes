@@ -72,7 +72,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="appcompat-v7-19.0.1" level="project" />
     <orderEntry type="library" exported="" name="support-v4-19.0.1" level="project" />
-    <orderEntry type="library" name="weka_3.6.10_wingoku_android" level="project" />
+    <orderEntry type="library" exported="" name="weka_3.6.10_wingoku_android" level="project" />
   </component>
 </module>
 
