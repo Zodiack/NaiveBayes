@@ -66,6 +66,7 @@ protected void onPreExecute()
             // Writing the data to the memory
             writeModel(nb);
             Log.d(LOG_TAG,"Done writing to the memory");
+            return 0;
            }
 
 
@@ -93,6 +94,7 @@ protected void onPreExecute()
             // Writing the data to the memory
             writeModel(nbModel);
             Log.d(LOG_TAG,"Done writing to the memory");
+            return 0;
         }
 
         //Classifying an instance using a pre-built nb model
@@ -124,6 +126,7 @@ protected void onPreExecute()
 
             Log.d(LOG_TAG, "The class is:" + classification);
             //TODO: send back to the original activity.
+            return (int) classification;
         }
         return null;
     }

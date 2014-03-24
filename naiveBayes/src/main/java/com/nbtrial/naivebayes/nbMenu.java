@@ -9,7 +9,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
+import weka.core.Instance;
 import weka.core.Instances;
+import weka.core.SparseInstance;
 import weka.core.converters.ConverterUtils.DataSource;
 
 
@@ -18,9 +20,9 @@ public class nbMenu extends ActionBarActivity {
     public static final String NEW="new";
     public static final String Update="update";
     public static final String Classify="classify";
-    public final static String TAG = "com.nbtrial.naivebayes.MESSAGE";
     Instances TrainSet = null;
     Instances TestSet = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -129,5 +131,20 @@ public class nbMenu extends ActionBarActivity {
         //TODO: Here we sent an arbitrary string as the location of the model. This needs to be addressed.
         intent.putExtra("nb model","/storage/sdcard/nb.model");
         new nbMain().execute(intent);
+
+
+    }
+
+    // A function for converting double arrays into instances.
+    public Instance converter(double[] data)
+    {
+        // Create a new sparse instance of the desired size
+        Instance instance = new SparseInstance(41);
+        for(int i=0;i< data.length; i++)
+        {
+            // Put in the data
+            instance.setValue(i,data[i]);
+        }
+        return instance;
     }
 }
