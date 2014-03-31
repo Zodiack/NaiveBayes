@@ -10,15 +10,16 @@ import android.widget.TextView;
 import java.util.Random;
 
 import weka.classifiers.Evaluation;
-import weka.classifiers.bayes.NaiveBayesUpdateable;
+import weka.classifiers.mi.MISVM;
 import weka.core.Instances;
 import weka.core.converters.ConverterUtils.DataSource;
+
 /*
-Here we can test other classes.
+Here we can test other classifiers.
 (Name needs to be changed)
  */
 public class NBclassification extends ActionBarActivity {
-    private static final String TAG = "Record for debugger";
+    private static final String TAG = "NBClassification";
 
 
     @Override
@@ -29,6 +30,7 @@ public class NBclassification extends ActionBarActivity {
         //Loading the data - training set and test set
         Instances structure = null;
         try {
+            //structure = DataSource.read("/storage/sdcard/axisInvariantFeatures.arff");
             structure = DataSource.read("/storage/sdcard/features.arff");
         } catch (Exception e) {
             e.printStackTrace();
@@ -40,10 +42,13 @@ public class NBclassification extends ActionBarActivity {
 
         // Train the class.
         // This is the place to change if we want to try new classifiers
-        NaiveBayesUpdateable nb = new NaiveBayesUpdateable();
-        Log.d(TAG, "Created a new nb class");
+
+        MISVM svm = new MISVM();
+        //IBk knn = new IBk();
+        // NaiveBayesUpdateable nb = new NaiveBayesUpdateable();
+        Log.d(TAG, "Created a new knn class");
         try {
-            nb.buildClassifier(structure);
+            svm.buildClassifier(structure);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -60,21 +65,26 @@ public class NBclassification extends ActionBarActivity {
 
         // Doing the actual evaluation
         // There are numerous options here and we can get all kinds of data from the eval
-        Log.d(TAG, "Doing the cross validation");
-        if(eval != null)
-            try {
-                eval.crossValidateModel(nb, structure, 5, new Random(5));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
+        double percentage = 0;
+        for(int i = 1; i <= 10; i++) {
+            Log.d(TAG, "Doing the cross validation");
+            if (eval != null)
+                try {
+                    eval.crossValidateModel(svm, structure, 10, new Random(i));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            Log.d(TAG,"The guess percentage for round " + i + " is: " + eval.pctCorrect());
+            percentage += eval.pctCorrect()/10;
+        }
         Log.d(TAG, "Results used for debugger issues");
         String msg = eval.toSummaryString("\nResults\n\n", false);
         Log.d(TAG, msg);
-        Log.d(TAG, "Setting the view");
         TextView text = (TextView) findViewById(R.id.textView1);
-        text.setText("Correct guess percentage is: " + Double.toString(eval.pctCorrect()));
+        text.setText("Correct guess percentage is: " + percentage);
+        //text.setText("Correct guess percentage is: " + Double.toString(eval.pctCorrect()));
         Log.d(TAG, "End - for now");
+
     }
 
 

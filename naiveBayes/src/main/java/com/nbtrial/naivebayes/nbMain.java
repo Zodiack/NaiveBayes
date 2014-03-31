@@ -135,7 +135,7 @@ protected void onPreExecute()
     public void writeModel(NaiveBayesUpdateable nb)
     {
         try {
-            weka.core.SerializationHelper.write("/some/where/nBayes.model", nb);
+            weka.core.SerializationHelper.write("/storage/sdcard/nBayes.model", nb);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -163,6 +163,7 @@ protected void onPreExecute()
 
     }
 
+    // A method used to deserialize an existing model.
     public NaiveBayesUpdateable loadModel(String string)
     {
         NaiveBayesUpdateable nb = null;

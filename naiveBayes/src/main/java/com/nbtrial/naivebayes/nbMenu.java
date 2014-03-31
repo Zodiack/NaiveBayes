@@ -29,6 +29,7 @@ public class nbMenu extends ActionBarActivity {
         setContentView(R.layout.activity_nb_menu);
 
         //Loading the data
+        // This part is not really needed, but can be used for further applications.
         //Instances structure = null;
         Log.d(LOG_TAG,"Loading the training data");
         try {
